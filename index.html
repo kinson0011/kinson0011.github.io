@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>你的姓名 | Academic Homepage</title>
+  <meta name="description" content="你的姓名的个人学术主页，包含研究方向、论文、项目、新闻和联系方式。" />
+
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --line: #e6e8ef;
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --soft: #eef5ff;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(circle at top left, #eaf2ff 0, transparent 34%), var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    a {
+      color: var(--primary-dark);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .layout {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 28px;
+      padding: 34px 0;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 28px;
+      align-self: start;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .avatar {
+      width: 132px;
+      height: 132px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      box-shadow: 0 16px 36px rgba(37, 99, 235, 0.25);
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .name {
+      margin: 0;
+      text-align: center;
+      font-size: 26px;
+      letter-spacing: -0.03em;
+    }
+
+    .role {
+      text-align: center;
+      color: var(--muted);
+      margin: 6px 0 16px;
+      font-size: 15px;
+    }
+
+    .tagline {
+      background: var(--soft);
+      border: 1px solid #dbeafe;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: #344054;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+      margin: 20px 0;
+    }
+
+    .nav a {
+      color: #344054;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .nav a:hover {
+      background: #f1f5f9;
+      text-decoration: none;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .main {
+      display: grid;
+      gap: 22px;
+    }
+
+    .hero,
+    .section {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+    }
+
+    .hero {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -90px;
+      top: -90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(59,130,246,.2), rgba(124,58,237,.15));
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -0.06em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 760px;
+      color: #475467;
+      font-size: 17px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      padding: 10px 15px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      color: #1f2937;
+      background: white;
+    }
+
+    .button.primary {
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      border-color: transparent;
+    }
+
+    .button:hover {
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .section h2 {
+      margin: 0 0 16px;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section h2::before {
+      content: "";
+      width: 8px;
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #2563eb, #7c3aed);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .interest {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .interest strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #111827;
+    }
+
+    .interest span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .news {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .news li {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .news li:last-child {
+      border-bottom: 0;
+    }
+
+    .date {
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .publication {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fbfcff;
+      margin-bottom: 14px;
+    }
+
+    .pub-thumb {
+      width: 112px;
+      height: 86px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #dbeafe, #ede9fe);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #1d4ed8;
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .publication h3 {
+      margin: 0 0 5px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .authors {
+      color: #475467;
+      font-size: 14px;
+      text-align: left;
+      margin: 0 0 4px;
+    }
+
+    .venue-text {
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 9px;
+    }
+
+    .pub-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pub-links a {
+      font-size: 13px;
+      font-weight: 800;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #f8fafc;
+    }
+
+    .footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 10px 0 28px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        top: 0;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .publication,
+      .timeline-item,
+      .news li {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .section,
+      .sidebar {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="avatar">
+        <!-- 上传头像后，把下一行取消注释，并把图片放到 assets/profile.jpg -->
+        <!-- <img src="assets/profile.jpg" alt="你的姓名"> -->
+        姓名
+      </div>
+
+      <h1 class="name">你的姓名</h1>
+      <div class="role">硕士/博士/本科生 · 你的学校/单位</div>
+
+      <p class="tagline">
+        研究方向：大语言模型、自然语言处理、智能体、检索增强生成、AI for Science。请替换成你的真实方向。
+      </p>
+
+      <nav class="nav">
+        <a href="#about">About Me</a>
+        <a href="#interests">Research Interests</a>
+        <a href="#news">News</a>
+        <a href="#publications">Publications</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="links">
+        <a class="pill" href="mailto:your-email@example.com">Email</a>
+        <a class="pill" href="https://github.com/你的用户名">GitHub</a>
+        <a class="pill" href="https://scholar.google.com/">Google Scholar</a>
+        <a class="pill" href="https://orcid.org/">ORCID</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero" id="about">
+        <div class="eyebrow">Academic Homepage</div>
+        <h1>你好，我是你的姓名。</h1>
+        <p>
+          我目前在你的学校/实验室从事人工智能相关研究。我的研究关注大语言模型、智能体、知识增强、评测与应用。这个主页用于展示我的论文、项目、研究动态和联系方式。
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#publications">查看论文</a>
+          <a class="button" href="assets/cv.pdf">下载 CV</a>
+          <a class="button" href="mailto:your-email@example.com">联系我</a>
+        </div>
+      </section>
+
+      <section class="section" id="interests">
+        <h2>Research Interests</h2>
+        <div class="grid">
+          <div class="interest">
+            <strong>Large Language Models</strong>
+            <span>LLM evaluation, hallucination, alignment, reasoning.</span>
+          </div>
+          <div class="interest">
+            <strong>RAG & Knowledge</strong>
+            <span>Retrieval-augmented generation, knowledge graphs, long-context.</span>
+          </div>
+          <div class="interest">
+            <strong>AI Agents</strong>
+            <span>Tool use, multi-agent collaboration, planning and automation.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="news">
+        <h2>News</h2>
+        <ul class="news">
+          <li>
+            <span class="date">2026.05</span>
+            <span>我的论文主页上线，欢迎访问与引用。</span>
+          </li>
+          <li>
+            <span class="date">2026.04</span>
+            <span>论文《你的论文标题》发布预印本。</span>
+          </li>
+          <li>
+            <span class="date">2026.03</span>
+            <span>代码与数据集整理完成，将持续更新。</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section" id="publications">
+        <h2>Publications</h2>
+
+        <article class="publication">
+          <div class="pub-thumb">Paper<br>2026</div>
+          <div>
+            <h3>你的论文标题：这里写完整标题</h3>
+            <p class="authors"><strong>你的姓名</strong>, 合作者一, 合作者二</p>
+            <div class="venue-text">arXiv / 会议或期刊名称, 2026</div>
+            <p>
+              一句话介绍这篇论文解决了什么问题、提出了什么方法、有什么主要贡献。
+            </p>
+            <div class="pub-links">
+              <a href="papers/my-first-paper/">Project Page</a>
+              <a href="papers/my-first-paper/paper.pdf">PDF</a>
+              <a href="https://github.com/你的用户名/你的代码仓库">Code</a>
+              <a href="papers/my-first-paper/#bibtex">BibTeX</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="publication">
+          <div class="pub-thumb">Work<br>in Progress</div>
+          <div>
+            <h3>另一篇论文或项目标题</h3>
+            <p class="authors"><strong>你的姓名</strong>, 合作者</p>
+            <div class="venue-text">Under Review / Working Paper</div>
+            <p>
+              这里可以放第二篇论文、项目、技术报告或即将发布的工作。
+            </p>
+            <div class="pub-links">
+              <a href="#">Project Page</a>
+              <a href="#">PDF</a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="section" id="education">
+        <h2>Education</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <strong>2024 – Present</strong>
+            <span>你的学校，专业/学位，导师：导师姓名。</span>
+          </div>
+          <div class="timeline-item">
+            <strong>2020 – 2024</strong>
+            <span>你的学校，专业/学位。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <h2>Contact</h2>
+        <p>
+          欢迎通过邮件联系我：<a href="mailto:your-email@example.com">your-email@example.com</a>
+        </p>
+        <p>
+          你也可以在这里添加 Google Scholar、GitHub、ORCID、ResearchGate、实验室主页等链接。
+        </p>
+      </section>
+
+      <div class="footer">
+        © 2026 你的姓名. Last updated: 2026-05-06.
+      </div>
+    </main>
+  </div>
+</body>
+</html>
